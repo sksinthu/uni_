@@ -33,7 +33,7 @@ export default function PaymentPage() {
           <OrderItemsList order={order} />
         </div>
 
-        <div className={classes.map}>
+        {/* <div className={classes.map}>
           <Title title="Your Location" fontSize="1.6rem" />
           <Map readonly={true} location={order.addressLatLng} />
         </div>
@@ -42,7 +42,7 @@ export default function PaymentPage() {
           <div className={classes.buttons}>
             <PaypalButtons order={order} />
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

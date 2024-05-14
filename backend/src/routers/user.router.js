@@ -8,6 +8,7 @@ import bcrypt from 'bcryptjs';
 import auth from '../middleware/auth.mid.js';
 import admin from '../middleware/admin.mid.js';
 const PASSWORD_HASH_SALT_ROUNDS = 10;
+const JWT_SECRET = process.env.JWT_SECRET || 'yourDefaultSecretKey';
 
 router.post(
   '/login',
@@ -161,7 +162,7 @@ const generateTokenResponse = user => {
       email: user.email,
       isAdmin: user.isAdmin,
     },
-    process.env.JWT_SECRET,
+    JWT_SECRET, // Use the JWT_SECRET variable here
     {
       expiresIn: '30d',
     }

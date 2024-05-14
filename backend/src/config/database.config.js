@@ -1,4 +1,5 @@
 import { connect, set } from 'mongoose';
+import dotenv from 'dotenv';
 import { UserModel } from '../models/user.model.js';
 import { FoodModel } from '../models/food.model.js';
 import { sample_users } from '../data.js';

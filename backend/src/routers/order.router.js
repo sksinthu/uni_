@@ -104,4 +104,5 @@ const getNewOrderForCurrentUser = async req =>
     user: req.user.id,
     status: OrderStatus.NEW,
   }).populate('user');
+  
 export default router;
