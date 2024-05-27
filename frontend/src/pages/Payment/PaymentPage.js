@@ -7,43 +7,54 @@ import Map from '../../components/Map/Map';
 import PaypalButtons from '../../components/PaypalButtons/PaypalButtons';
 
 export default function PaymentPage() {
-  const [order, setOrder] = useState();
+  const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getNewOrderForCurrentUser().then(data => setOrder(data));
+    getNewOrderForCurrentUser()
+      .then(data => {
+        setOrder(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching order:', err); // Log the error
+        setError('Failed to load order. Please try again later.');
+        setLoading(false);
+      });
   }, []);
 
-  if (!order) return;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
-    <>
-      <div className={classes.container}>
-        <div className={classes.content}>
-          <Title title="Order Form" fontSize="1.6rem" />
-          <div className={classes.summary}>
-            <div>
-              <h3>Name:</h3>
-              <span>{order.name}</span>
-            </div>
-            <div>
-              <h3>Address:</h3>
-              <span>{order.address}</span>
-            </div>
+    <div className={classes.container}>
+      <div className={classes.content}>
+        <Title title="Order Form" fontSize="1.6rem" />
+        <div className={classes.summary}>
+          <div>
+            <h3>Name:</h3>
+            <span>{order.name}</span>
           </div>
-          <OrderItemsList order={order} />
-        </div>
-
-        {/* <div className={classes.map}>
-          <Title title="Your Location" fontSize="1.6rem" />
-          <Map readonly={true} location={order.addressLatLng} />
-        </div>
-
-        <div className={classes.buttons_container}>
-          <div className={classes.buttons}>
-            <PaypalButtons order={order} />
+          <div>
+            <h3>Address:</h3>
+            <span>{order.address}</span>
           </div>
-        </div> */}
+        </div>
+        <OrderItemsList order={order} />
       </div>
-    </>
+
+      {/* Uncomment these parts once they are needed and properly tested */}
+      {/* <div className={classes.map}>
+        <Title title="Your Location" fontSize="1.6rem" />
+        <Map readonly={true} location={order.addressLatLng} />
+      </div>
+
+      <div className={classes.buttons_container}>
+        <div className={classes.buttons}>
+          <PaypalButtons order={order} />
+        </div>
+      </div> */}
+    </div>
   );
 }

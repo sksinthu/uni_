@@ -70,14 +70,17 @@ router.get(
   })
 );
 
-router.get(
-  '/newOrderForCurrentUser',
-  handler(async (req, res) => {
-    const order = await getNewOrderForCurrentUser(req);
-    if (order) res.send(order);
-    else res.status(BAD_REQUEST).send();
-  })
-);
+router.get('/newOrderForCurrentUser', async (req, res) => {
+  try {
+    const userId = req.user.id; // `req.user` is set by the auth middleware
+    // Your logic to get the new order for the current user
+    const order = await getOrderForUser(userId); // Adjust according to your database logic
+    res.status(200).send(order);
+  } catch (error) {
+    console.error('Error fetching new order for current user:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 router.get('/allstatus', (req, res) => {
   const allStatus = Object.values(OrderStatus);

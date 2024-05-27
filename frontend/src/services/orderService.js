@@ -8,9 +8,14 @@ export const createOrder = async order => {
 };
 
 export const getNewOrderForCurrentUser = async () => {
-  const { data } = await axios.get('/api/orders/newOrderForCurrentUser');
-  return data;
-};
+  try {
+    const { data } = await axios.get('/api/orders/newOrderForCurrentUser');
+    return data;
+  } catch (error) {
+    console.error('Error fetching new order for current user:', error);
+    throw error;
+  }
+}
 
 export const pay = async paymentId => {
   try {
